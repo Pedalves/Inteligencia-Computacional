@@ -253,7 +253,30 @@ dfLaranja$Volume <- calcula.volume(dfLaranja)
 
 ### D)
 
+classifica.destino <- function(categoria, peso, volume) {
+  ifelse(categoria == "A", "descarte",
+         ifelse(peso/volume > 0.7, "suco", "venda"))
+}
 
+dfLaranja$Destino <- classifica.destino(dfLaranja$Categoria, dfLaranja$Peso, dfLaranja$Volume)
 
+### E)
 
+x <- aggregate(dfLaranja$Destino, 
+               list(Destino=dfLaranja$Destino), 
+               length)
 
+pie(x$x, x$Destino)
+
+### F)
+
+hist(dfLaranja$IndiceAcidez, main="Histograma do Índice de Acidez", xlab="Índice de Acidez", col="green")
+
+### G)
+
+hist(dfLaranja$IndiceAcidez, main="Histograma do Índice de Acidez", xlab="Índice de Acidez", col="green", probability = TRUE, freq = FALSE)
+
+xfit <- seq(min(dfLaranja$IndiceAcidez), max(dfLaranja$IndiceAcidez), length = 40) 
+yfit <- dnorm(xfit, mean = mean(dfLaranja$IndiceAcidez), sd = sd(dfLaranja$IndiceAcidez)) 
+
+lines(xfit, yfit)
